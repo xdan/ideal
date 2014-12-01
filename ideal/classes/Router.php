@@ -1,5 +1,5 @@
 <?php
-class Router extends Singleton{
+class router extends Singleton{
 	public $action = 'index';
 	public $controller = false;
 	function parse(){
