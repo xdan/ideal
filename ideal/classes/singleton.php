@@ -1,5 +1,5 @@
 <?php
-abstract class singleton{
+abstract class Singleton{
 	private static $_aInstances = array();
 
 	public static function getInstance( $className=false ) {
