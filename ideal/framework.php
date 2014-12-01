@@ -1,18 +1,18 @@
 <?php
 function class_autoload($class_name) {
-	$file = IDEAL . 'classes/'.strtolower($class_name).'.php';
+	$file = IDEAL . 'classes/'.ucfirst(strtolower($class_name)).'.php';
 	if( file_exists($file) == false )
 		return false;
 	require_once ($file);
 }
 function controller_autoload($class_name) {
-	$file = APP . 'controllers/'.strtolower($class_name).'.php';
+	$file = APP . 'controllers/'.preg_replace('#controller$#i', 'Controller', ucfirst(strtolower($class_name))).'.php';
 	if( file_exists($file) == false )
 		return false;
 	require_once ($file);
 }
 function model_autoload($class_name) {
-	$file = APP . 'models/'.strtolower($class_name).'.php';
+	$file = APP . 'models/'.ucfirst(strtolower($class_name)).'.php';
 	if( file_exists($file) == false )
 		return false;
 	require_once ($file);
