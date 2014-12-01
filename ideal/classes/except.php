@@ -1,2 +1,2 @@
 <?php
-class xcept extends Exception{}
+class Except extends Exception{}
