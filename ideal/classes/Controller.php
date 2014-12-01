@@ -24,17 +24,17 @@ class Controller extends Singleton{
 			include $fullpath;
 			return !$output?ob_get_clean():true;
 		}else	
-			throw new Except('File '.$fullpath.'.php not found');
+			throw new Except('File '.$fullpath.' not found');
 		
 	}
 	/**
-	 * renderPartial - метод доступный в контроллере, для вывода файла шаблона. 
-	 * Не запускает больше никаких файлов. Удобен при ajax вызове контроллера
+	 * renderPartial - methods are available in the controller to display the template file. 
+	 * Does not run any more files. Convenient when ajax call controller
 	 *
-	 * @params $filename - название шаблона в папке views/название контроллера/{}.php
-	 * @params $variables - ключи массива будут доступны в шаблоне как переменные с 
-	 * теми же именами
-	 * @params $output - если указать false, то данные из шаблона не будут выведены в основной поток а будут возвращены методом
+	 * @params $filename - template name in the folder views / controller name / {}. php
+	 * @params $variables -array keys will be available in the template as variables 
+	 * The same name
+	 * @params $output - If you specify false, the data from the template will be displayed in the main stream and will be returned by
 	 */
 	public function renderPartial($filename,$variables=array(),$output=true){
 		$file = $this->tplControllerPath.str_replace('..','',$filename).'.php';
@@ -42,10 +42,10 @@ class Controller extends Singleton{
 	}
 	
 	/**
-	 * render - метод выполняет полный вывод страницы на экран. При этом в нее включается 
-	 * содержимое файла шаблона $filename
+	 * render - method performs the complete withdrawal of the page to the screen. Thus, it includes 
+	 * The contents of the template file $ filename
 	 *
-	 * @params - все параметры идентичны renderPartial
+	 * @params - All parameters are identical renderPartial
 	 */
 	public function render($filename,$variables=array(),$output=true){
 		$content = $this->renderPartial($filename,$variables,false);
