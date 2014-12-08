@@ -1,6 +1,6 @@
 <?php
 class Router extends Singleton{
-	public $action = 'index';
+	public $action  = 'index';
 	public $controller = false;
 	function parse(){
 		if( isset($_REQUEST['controller']) )
