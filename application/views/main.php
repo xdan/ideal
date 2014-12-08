@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
 <html lang="en-US">
 <head>
-	<meta charset="<?=app::gi()->config->encode?>">
-	<title><?=app::gi()->config->sitename?></title>
+	<meta charset="UTF-8">
+	<title></title>
 </head>
 <body>
 	<?=$content?>
