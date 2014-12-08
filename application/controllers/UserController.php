@@ -1,6 +1,6 @@
 <?php
 class UserController extends Controller{
-	function index(){
+	function actionIndex(){
 		$model = new User();
 		$this->render('index',array('model'=>$model));
 	}
