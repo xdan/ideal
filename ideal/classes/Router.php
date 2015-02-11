@@ -1,29 +1,44 @@
 <?php
 class Router extends Singleton{
-    public $controller;
-    public $action;
-    public $id;
+    private $path_elements = array('controller','action','id');
+	
+	function parse($path){
+		$request = $_REQUEST;
 
-    private $reg_paths = array(
-        '([a-z0-9+_\-]+)/([a-z0-9+_\-]+)/([0-9]+)' => 'controller/action/id',
-        '([a-z0-9+_\-]+)/([a-z0-9+_\-]+)' => 'controller/action',
-        '([a-z0-9+_\-]+)' => 'controller',
-    );
-     
-    function parse(){
-        $path = $_REQUEST['route'];
-         
-        $this->controller = app::gi()->config->default_controller;
-        $this->action = app::gi()->config->default_action;
-        $this->id = 0;
+		$request['controller'] = app::gi()->config->default_controller;
+		$request['action'] = app::gi()->config->default_action;
+		$request['id'] = 0;
+		$parts = parse_url($path);
+		if (isset($parts['query']) and !empty($parts['query'])) {
+			$path = str_replace('?'.$parts['query'], '', $path);
+			parse_str($parts['query'], $req);
+			$request = array_merge($request, $req);
+		}
+		foreach(app::gi()->config->router as $rule=>$keypath) {
+			if (preg_match('#'.$rule.'#sui', $path, $list)) {
+				for	($i=1; $i<count($list); $i=$i+1) {
+					$keypath = preg_replace('#\$[a-z0-9]+#', $list[$i], $keypath, 1);
+				}
+				$keypath = explode('/', $keypath);
+				foreach($keypath as $i=>$key) {
+					$request[$this->path_elements[$i]] = $key;
+				}
+			}
+		}
 
-        foreach($this->reg_paths as $regxp=>$keys) {
-            if (preg_match('#'.$regxp.'#Uuis', $path, $res)) {
-                $keys = explode('/',$kyes);
-                foreach ($keys as $i=>$key) {
-                    $this->$key = $res[$i+1];
-                }
-            }
-        }
-    }
+		return $request;
+	}
+	function test() {
+		echo $path = '/user/',"\n";
+		print_r($this->parse($path));
+		echo $path = '/user/login/',"\n";
+		print_r($this->parse($path));
+		echo $path = '/user/profile/15',"\n";
+		print_r($this->parse($path));
+		echo $path = 'about.html',"\n";
+		print_r($this->parse($path));
+		echo $path = 'about.html?lenta=1#1',"\n";
+		print_r($this->parse($path));
+		exit();
+	}
 }

@@ -1,0 +1,3 @@
+<?
+include 'pages/'.$id.'.php';
+?>

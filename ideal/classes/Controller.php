@@ -48,7 +48,60 @@ class Controller extends Singleton{
 	 * @params - All parameters are identical renderPartial
 	 */
 	public function render($filename,$variables=array(),$output=true){
-		$content = $this->renderPartial($filename,$variables,false);
-		return $this->_renderPartial($this->tplPath.'main.php',array_merge(array('content'=>$content),$variables),$output);
-	}	
+		$this->renderPartial($filename, $variables, $output);
+	}
+	
+	/**
+	 * render - метод рендерит конечную страницу, которая будет выдана в браузер
+	 */
+	public function renderPage($content){
+		$html = $this->_renderPartial($this->tplPath.'main.php',array('content'=>$content), false);
+		$output = array('head'=>'','body'=>'');
+		foreach ($this->assets as $item) {
+			if ($item['asset'] == 'script') {
+				if ($item['type']=='inline') {
+					$output[$item['where']].='<script type="text/javascript">'.$item['data'].'</script>'."\n";
+				} else {
+					$output[$item['where']].='<script type="text/javascript" src="'.$item['data'].'"></script>'."\n";
+				}
+			}else{
+				if ($item['type']=='inline') {
+					$output[$item['where']].='<style>'.$item['data'].'</style>'."\n";
+				} else {
+					$output[$item['where']].='<link rel="stylesheet" href="'.$item['data'].'" type="text/css" />'."\n";
+				}
+			}
+		}
+		if ($output['head']) {
+			$html = preg_replace('#(<\/head>)#iu', $output['head'].'$1', $html);
+		}
+		if ($output['body']) {
+			$html = preg_replace('#(<\/body>)#iu', $output['body'].'$1', $html);
+		}
+
+		echo $html;
+	}
+	
+	private $assets = array();
+	
+	private function addAsset($link, $where = 'head', $asset = 'script', $type = 'url'){
+		$hash = md5('addScript'.$link.$where.$asset.$type);
+		$where = $where=='head' ? 'head' : 'body';
+		$asset = $asset=='script' ? 'script' : 'style';
+		if (!isset($this->assets[$hash])) {
+			$this->assets[$hash] = array('where'=>$where,'asset'=>$asset,'type'=>$type,'data'=>$link);
+		}
+	}
+	public function addScript($link, $where = 'head'){
+		$this->addAsset($link, $where);
+	}
+	public function addStyleSheet($link, $where = 'head'){
+		$this->addAsset($link, $where, 'style');
+	}
+	public function addScriptDeclaration($data, $where = 'head'){
+		$this->addAsset($data, $where, 'script', 'inline');
+	}
+	public function addStyleSheetDeclaration($data, $where = 'head'){
+		$this->addAsset($data, $where, 'style', 'inline');
+	}
 }
