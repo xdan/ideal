@@ -5,7 +5,7 @@ class App extends Singleton{
     function start(){
 		$default_config = include IDEAL.'config.php';
 		$custom_config = include APP.'config.php';
-        $this->config = new Model(array_merge($default_config, $custom_config));
+        $this->config = new Model(array_merge_recursive($default_config, $custom_config));
 
 		$this->uri = new Model(Router::gi()->parse($_SERVER['REQUEST_URI']));
         $controller = app::gi($this->uri->controller.'Controller');
