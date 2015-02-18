@@ -1,3 +1,3 @@
 <?
-include 'pages/'.$id.'.php';
+$this->renderPartial('pages/'.$id);
 ?>

@@ -1,5 +1,7 @@
 <?php
 class Controller extends Singleton{
+	public $layout = 'base';
+	
 	function __call($methodName, $args=array()){
 		if (method_exists($this, $methodName))
 			return call_user_func_array(array($this,$methodName),$args);
