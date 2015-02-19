@@ -3,7 +3,7 @@ return array(
 	'sitename' => 'IDeal',
 	'encode' => 'utf-8',
 	'cookietime' => 3600, // время жизни куков администратора в секундах
-	'version' => '1.0.2 ',
+	'version' => '1.0.3 ',
 	'default_controller' => 'index',
 	'default_action' => 'index',
     'db' => array(),
