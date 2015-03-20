@@ -6,10 +6,14 @@ class App extends Singleton{
 		$this->initSystemHandlers();
 		$default_config = include IDEAL.'config.php';
 		$custom_config = include APP.'config.php';
-        $this->config = new Model(array_merge($default_config, $custom_config));
+        $this->config = new Registry(array_merge($default_config, $custom_config));
+		
+		include  IDEAL . 'classes/adapter/db.php';
+		$this->db = new db;
+		$this->db->connect($this->config->db);
 	}
     function start(){
-		$this->uri = new Model(Router::gi()->parse($_SERVER['REQUEST_URI']));
+		$this->uri = new Registry(Router::gi()->parse($_SERVER['REQUEST_URI']));
         $controller = app::gi($this->uri->controller.'Controller');
 		ob_start();
 		$controller->__call('action'.$this->uri->action, array($this->uri->id));

@@ -1,4 +1,4 @@
 <?php
-class User extends Model{
+class User extends Registry{
 	public $name = 'Valeriy';
 }
