@@ -17,7 +17,7 @@ class db{
 			return false;
 		}
 		if (mysql_select_db($config['db'], $this->connect_id)) {
-			if (!$config['charset']) {
+			if (!isset($config['charset'])) {
 				$config['charset'] = 'utf8';
 			}
 			$this->query("SET NAMES '".$config['charset']."'")->
@@ -25,7 +25,9 @@ class db{
 				query("SET CHARACTER SET '".$config['charset']."'")->
 				query("SET SESSION collation_connection = '".$config['charset']."_general_ci'");
 		}
-		$this->pfx = $config['dbprefix'];
+		if (isset($config['dbprefix'])) {
+			$this->pfx = $config['dbprefix'];
+		}
 	}
 	function last() {
 		return $this->sql;

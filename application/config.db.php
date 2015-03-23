@@ -3,6 +3,6 @@ return array(
     'host' => 'localhost',
     'user' => 'root',
     'password' => 'parol',
-    'db' => 'ideal',
+    'dbname' => 'ideal',
     'pref' => 'idl_' // префикс для всех таблиц фреймворка
 );

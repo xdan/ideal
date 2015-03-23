@@ -9,7 +9,7 @@ class App extends Singleton{
         $this->config = new Registry(array_merge($default_config, $custom_config));
 		
 		include  IDEAL . 'classes/adapter/db.php';
-		$this->db = new db;
+		$this->db = new db();
 		$this->db->connect($this->config->db);
 	}
     function start(){
